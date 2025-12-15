@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DOM Text Updater with History</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+            font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            height: 100vh;
+            margin: 0;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        main {
+            background: #ffffff;
+            padding: 30px;
+            width: 380px;
+            border-radius: 16px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.25);
+            text-align: center;
+            animation: fadeIn 0.8s ease;
+        }
+
+        h1 {
+            margin-bottom: 10px;
+            color: #333;
+        }
+
+        #outputText {
+            margin: 12px 0;
+            padding: 12px;
+            background: #f2f4ff;
+            border-radius: 8px;
+            min-height: 40px;
+            font-weight: 500;
+        }
+
+        input {
+            width: 100%;
+            padding: 12px;
+            margin: 12px 0;
+            border-radius: 8px;
+            border: 1px solid #ccc;
+            font-size: 15px;
+        }
+
+        input:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        button {
+            width: 100%;
+            padding: 12px;
+            font-size: 16px;
+            border: none;
+            border-radius: 8px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            cursor: pointer;
+            margin-bottom: 15px;
+        }
+
+        button:hover {
+            opacity: 0.95;
+        }
+
+        .history {
+            text-align: left;
+            max-height: 150px;
+            overflow-y: auto;
+            padding-top: 10px;
+            border-top: 1px solid #ddd;
+        }
+
+        .history h3 {
+            margin-bottom: 8px;
+            font-size: 16px;
+            color: #444;
+        }
+
+        .history-item {
+            background: #eef0ff;
+            padding: 8px;
+            border-radius: 6px;
+            margin-bottom: 6px;
+            font-size: 14px;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(15px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+<body>
+    <h1>DOM Text Updater</h1>
+
+    <p id="outputText">Your text will appear here</p>
+
+    <input type="text" id="userInput" placeholder="Enter text">
+
+    <button id="updateBtn">Update Text</button>
+
+    <div class="history">
+        <h3>Input History</h3>
+        <div id="historyList"></div>
+    </div>
+
+
+<script>
+    const input = document.getElementById("userInput");
+    const output = document.getElementById("outputText");
+    const button = document.getElementById("updateBtn");
+    const historyList = document.getElementById("historyList");
+
+    function submitText() {
+        const text = input.value.trim();
+        if (text === "") return;
+
+        output.textContent = text;
+
+        const historyItem = document.createElement("div");
+        historyItem.className = "history-item";
+        historyItem.textContent = text;
+
+        historyList.prepend(historyItem);
+        input.value = "";
+    }
+
+    button.addEventListener("click", submitText);
+    input.addEventListener("keydown", function (event) {
+        if (event.key === "Enter") {
+            submitText();
+        }
+    });
+</script>
+
+
+</body>
+</html>
